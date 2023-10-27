@@ -1,3 +1,5 @@
+// clang-format off
+
 /**
  * @file FusionAhrs.h
  * @author Seb Madgwick
@@ -94,6 +96,8 @@ FusionQuaternion FusionAhrsGetQuaternion(const FusionAhrs *const ahrs);
 void FusionAhrsSetQuaternion(FusionAhrs *const ahrs, const FusionQuaternion quaternion);
 
 FusionVector FusionAhrsGetLinearAcceleration(const FusionAhrs *const ahrs);
+
+FusionVector FusionAhrsGetLinearAccelerationCustom(const FusionAhrs *const ahrs, const FusionVector customAcceleration);
 
 FusionVector FusionAhrsGetEarthAcceleration(const FusionAhrs *const ahrs);
 

@@ -1,3 +1,5 @@
+// clang-format off
+
 /**
  * @file FusionAhrs.c
  * @author Seb Madgwick
@@ -403,6 +405,37 @@ FusionVector FusionAhrsGetLinearAcceleration(const FusionAhrs *const ahrs) {
         }
         case FusionConventionNed: {
             return FusionVectorAdd(ahrs->accelerometer, gravity);
+        }
+    }
+    return FUSION_VECTOR_ZERO; // avoid compiler warning
+#undef Q
+}
+
+/**
+ * @brief Returns the linear acceleration measurement equal to the accelerometer
+ * measurement with the 1 g of gravity removed with custom acceleration.
+ * @param ahrs AHRS algorithm structure.
+ * @param customAcceleration Custom acceleration measurement in g.
+ * @return Linear acceleration measurement in g.
+ */
+FusionVector FusionAhrsGetLinearAccelerationCustom(const FusionAhrs *const ahrs, const FusionVector customAcceleration) {
+#define Q ahrs->quaternion.element
+
+    // Calculate gravity in the sensor coordinate frame
+    const FusionVector gravity = {.axis = {
+            .x = 2.0f * (Q.x * Q.z - Q.w * Q.y),
+            .y = 2.0f * (Q.y * Q.z + Q.w * Q.x),
+            .z = 2.0f * (Q.w * Q.w - 0.5f + Q.z * Q.z),
+    }}; // third column of transposed rotation matrix
+
+    // Remove gravity from accelerometer measurement
+    switch (ahrs->settings.convention) {
+        case FusionConventionNwu:
+        case FusionConventionEnu: {
+            return FusionVectorSubtract(customAcceleration, gravity);
+        }
+        case FusionConventionNed: {
+            return FusionVectorAdd(customAcceleration, gravity);
         }
     }
     return FUSION_VECTOR_ZERO; // avoid compiler warning
