@@ -1,9 +1,6 @@
-cmake_minimum_required(VERSION 3.15)
-project(Fusion)
+# Gather all source files recursively from the current directory
+file(GLOB_RECURSE SRC_FILES "Fusion/*.c" "Fusion/*.cpp")
 
-add_subdirectory("Fusion")
-add_subdirectory("Examples/Advanced")
-add_subdirectory("Examples/Simple")
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_subdirectory("Python/Python-C-API") # do not include when run by CI
-endif()
+idf_component_register(SRCS ${SRC_FILES}
+                       INCLUDE_DIRS "Fusion"
+                    )
