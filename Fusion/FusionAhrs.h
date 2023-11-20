@@ -97,6 +97,8 @@ void FusionAhrsSetQuaternion(FusionAhrs *const ahrs, const FusionQuaternion quat
 
 FusionVector FusionAhrsGetLinearAcceleration(const FusionAhrs *const ahrs);
 
+float FusionGetX(const FusionAhrs *const ahrs);
+
 FusionVector FusionAhrsGetLinearAccelerationCustom(const FusionAhrs *const ahrs, const FusionVector customAcceleration);
 
 FusionVector FusionAhrsGetEarthAcceleration(const FusionAhrs *const ahrs);

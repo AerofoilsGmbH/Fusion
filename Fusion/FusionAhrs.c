@@ -411,6 +411,15 @@ FusionVector FusionAhrsGetLinearAcceleration(const FusionAhrs *const ahrs) {
 #undef Q
 }
 
+
+float FusionGetX(const FusionAhrs *const ahrs) {
+#define Q ahrs->quaternion.element
+
+    return  2.0f * (Q.x * Q.z - Q.w * Q.y);
+
+#undef Q
+}
+
 /**
  * @brief Returns the linear acceleration measurement equal to the accelerometer
  * measurement with the 1 g of gravity removed with custom acceleration.
